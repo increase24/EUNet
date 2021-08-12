@@ -1,0 +1,13 @@
+__pycache__
+*.pyc
+
+# outputs: logs, trained models
+outputs/
+# dataset
+data/
+*.tar
+
+*.out
+notebooks/
+
+.vscode
