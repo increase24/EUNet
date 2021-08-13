@@ -3,8 +3,14 @@
 This is an official pytorch implementation of [Feature Fusion of sEMG and Ultrasound Signals in Hand Gesture Recognition](https://ieeexplore.ieee.org/document/9282818/). Please cite this paper if you find this repo helpful for you.
 
 EUNet has two version: one-stream and two stream.
+
 :triangular_flag_on_post: one-stream EUNet is designed for hand gesture recognition based on seperate sEMG or A-mode ultrasound signals;
+
 :triangular_flag_on_post: two-stream EUNet is designed for hand gesture recognition based on fusion sEMG and A-mode ultrasound signals.
+
++ EU-Net(one stream)
+![EU-Net Architecture](/figs/EU-Net.png)
+The shared CNN architecture for separate sEMG or ultrasound signal to feature extraction and classification.
 
 + EU-Net(one stream)
 ![EU-Net Architecture](/figs/EU-Net.png)
@@ -40,6 +46,16 @@ The complete hybrid sEMG/US dataset is not released now. We apply collected sEMG
 * Train EUNet for A-mode ultrasound modality
   ```
   sh scripts/train_us_EUNet.sh
+  ```
+
+### Validate
+* Validate EUNet for sEMG modality
+  ```
+  sh scripts/test_emg_EUNet.sh
+  ```
+* Validate EUNet for A-mode ultrasound modality
+  ```
+  sh scripts/test_us_EUNet.sh
   ```
 
 ### Contact

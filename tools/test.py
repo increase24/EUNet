@@ -9,8 +9,9 @@ import numpy as np
 import torch
 import torch.nn as nn
 from yacs.config import CfgNode as CN
-# custom
 import _init_path
+from dataset import EMGDataloader
+# custom
 from dataset import get_dataloader_class
 from networks import get_network
 from utils.trainer import Trainer
@@ -20,7 +21,8 @@ from utils.saver import save_checkpoint, save_result
 def parse_args():
     parser = argparse.ArgumentParser(description='PyTorch Jester Training using JPEG')
     parser.add_argument('--config', '-c', help='json config file path')
-
+    parser.add_argument('--modelName', help='name of nn model')
+    parser.add_argument('--modality', help='modality to train(EMG, US or USEMG)')
     args = parser.parse_args()
     return args
 
@@ -28,18 +30,25 @@ def main():
     args = parse_args()
     with open(args.config) as cfg_file:
         cfg = CN.load_cfg(cfg_file)
+        opts = [
+            'ModelConfig.model_name', args.modelName, 
+            'ModelConfig.modality', args.modality
+            ]
+        cfg.merge_from_list(opts)
+        print(cfg)
         print('Successfully loading the config file....')
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     ModelConfig = cfg.ModelConfig
-    paths_Data = sorted(glob.glob('./data/'+ModelConfig.modality+'/*.txt'))
+    paths_data = sorted(glob.glob('./data/'+ModelConfig.modality+'/*.txt'))
     class_dataloader = get_dataloader_class(ModelConfig.modality)
-    results = np.zeros((len(paths_Data), 4))
-    for idx_subject in range(len(paths_Data)):
+    results = np.zeros((len(paths_data), 4))
+    for idx_subject in range(len(paths_data)):
         for cross_val in range(4): # 4-fold
             print(f"subject: {idx_subject}, cv: {cross_val}")
             # load dataloader
             print("Start loading the dataloader....")
-            train_loader, valid_loader = class_dataloader.get_dataloader(paths_Data[idx_subject], cross_val)
+            DataConfig = cfg.DatasetConfig
+            train_loader, valid_loader = class_dataloader.get_dataloader(paths_data[idx_subject], cross_val, DataConfig)
             print('Finish loading the dataloader....')
             # load network
             with open(ModelConfig.model_arch[ModelConfig.model_name]) as data_file:
