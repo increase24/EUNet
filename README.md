@@ -8,13 +8,13 @@ EUNet has two version: one-stream and two stream.
 
 :triangular_flag_on_post: two-stream EUNet is designed for hand gesture recognition based on fusion sEMG and A-mode ultrasound signals.
 
-+ EU-Net(one stream)
-![EU-Net Architecture](/figs/EU-Net.png)
++ EUNet(one stream)
+![EUNet_oneStream](/figs/EU-Net.png)
 The shared CNN architecture for separate sEMG or ultrasound signal to feature extraction and classification.
 
-+ EU-Net(one stream)
-![EU-Net Architecture](/figs/EU-Net.png)
-The shared CNN architecture for separate sEMG or ultrasound signal to feature extraction and classification.
++ EUNet(two stream)
+![EUNet_twoStream](/figs/EUNet_twoStream.png)
+The two stream CNN architecture for sEMG and ultrasound feature extraction, feature fusion and classification.
 
 
 ## Environment
